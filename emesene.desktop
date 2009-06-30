@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Categories=Network;
+Name=emesene
+Comment=instant messaging client for the Windows Live Messenger (tm) network
+Exec=emesene
+Icon=emesene
+Terminal=false
