@@ -1,18 +1,19 @@
+# TODO
+# - locales to glibc dirs
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	1.0.1
-Release:	0.1
+Release:	1
 License:	GPL v2+
 Group:		Applications/Networking
-URL:		http://emesene.org
+URL:		http://www.emesene.org/
 Source0:	http://dl.sourceforge.net/emesene/%{name}-%{version}.tar.gz
 # Source0-md5:	49f77e190b8c991c32a07ac07cf88d13
 Source1:	%{name}.desktop
-BuildRequires:	desktop-file-utils
-BuildRequires:	gettext
-Requires:	gnome-python2-extras
-Requires:	gtk2
+Patch0:		python2.6.patch
+Requires:	gtk+2
 Requires:	python
+Requires:	python-gnome-extras
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -22,33 +23,31 @@ network.
 
 %prep
 %setup -q
+%patch0 -p1
 
 cat <<'EOF' > emesene.sh
 #!/bin/sh
-exec %{_datadir}/%{name}/%{name} "$@"
+exec %{__python} %{_datadir}/%{name}/%{name} "$@"
 EOF
 
-%build
-%{nil}
+# fix #!/usr/bin/env python -> #!/usr/bin/python:
+%{__sed} -i -e '1s,^#!.*python,#!%{__python},' emesene Controller.py
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{_desktopdir},%{_pixmapsdir}}
 
 cp -a . $RPM_BUILD_ROOT%{_datadir}/%{name}
+rm $RPM_BUILD_ROOT%{_datadir}/%{name}/emesene.sh
 install emesene.sh $RPM_BUILD_ROOT%{_bindir}/emesene
-%{__cp} themes/default/trayicon.png $RPM_BUILD_ROOT%{_pixmapsdir}/emesene.png
-desktop-file-install --dir $RPM_BUILD_ROOT%{_desktopdir}/ %{SOURCE1}
-
-# Controller.py and %{bindir}/emesene should be executable
-%{__chmod} 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/Controller.py
+ln $RPM_BUILD_ROOT{%{_datadir}/%{name}/themes/default/trayicon.png,%{_pixmapsdir}/emesene.png}
+cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
 # handling locale files
 #%find_lang %{name}
 
 %clean
-%{__rm} -rf $RPM_BUILD_ROOT
-
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)

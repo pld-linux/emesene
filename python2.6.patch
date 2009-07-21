@@ -1,0 +1,179 @@
+--- emesene/Avatar.py	2008-02-27 22:08:45.000000000 +0200
++++ emesene/Avatar.py	2009-07-17 10:42:08.000000000 +0300
+@@ -18,7 +18,10 @@
+ 
+ import os
+ import gc
+-import sha
++try:
++    from hashlib import sha1 as sha
++except ImportError:
++    from sha import sha
+ import gtk
+ import ImageAreaSelector
+ 
+@@ -58,7 +61,7 @@
+         self.thumb.save( thumbPath, 'png' )
+         
+         f = file(imagePath, 'rb')
+-        hash = sha.new(f.read())
++        hash = sha(f.read())
+         f.close()
+         self.imagePath = avatarsPath + os.sep + hash.hexdigest() + '.png'
+         self.thumbPath = avatarsPath + os.sep + hash.hexdigest() + '_thumb.png'
+--- emesene/CustomEmoticons.py	2008-02-14 03:41:57.000000000 +0200
++++ emesene/CustomEmoticons.py	2009-07-17 10:42:00.000000000 +0300
+@@ -18,7 +18,10 @@
+ 
+ import os
+ import gtk
+-import sha
++try:
++    from hashlib import sha1 as sha
++except ImportError:
++    from sha import sha
+ import shutil
+ import urllib
+ 
+@@ -79,7 +82,7 @@
+                 pixbuf = Theme.resizePixbuf( pixbuf, size_tab[size], size_tab[size] )
+ 
+         f = open(filename, 'rb')
+-        hash = sha.new(f.read()).hexdigest()
++        hash = sha(f.read()).hexdigest()
+         f.close()
+         
+         dest = self.CEPath + PATH.DIR_SEP + pathquote(shortcut) + '.' + \
+--- emesene/emesenelib/ContactData.py	2008-03-15 15:05:53.000000000 +0200
++++ emesene/emesenelib/ContactData.py	2009-07-17 10:41:20.000000000 +0300
+@@ -18,7 +18,10 @@
+ 
+ import common
+ import os
+-import sha
++try:
++    from hashlib import sha1 as sha
++except ImportError:
++    from sha import sha
+ 
+ class Contact(object):
+     '''class describing a contact'''
+@@ -73,7 +76,7 @@
+         elif self.msnobj is None:
+             return ''
+         
+-        sha1d = sha.sha(self.msnobj.sha1d).hexdigest()
++        sha1d = sha(self.msnobj.sha1d).hexdigest()
+         return self.email.split('@')[0] + "_" + sha1d
+ 
+     def _setPath(self, value):
+--- emesene/emesenelib/Hotmail.py	2008-03-24 08:25:48.000000000 +0200
++++ emesene/emesenelib/Hotmail.py	2009-07-17 10:42:39.000000000 +0300
+@@ -17,7 +17,10 @@
+ #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ import os
+-import md5
++try:
++    from hashlib import md5
++except ImportError:
++    from md5 import md5
+ import common
+ from time import time
+ 
+@@ -38,7 +41,7 @@
+         sl = str( int ( time() ) - int( self.dg['LoginTime'] ) )
+         auth = self.MSPAuth
+         sid = self.dg['sid']
+-        cred =  md5.new( auth + sl + self.password ).hexdigest()
++        cred =  md5( auth + sl + self.password ).hexdigest()
+ 
+         templateData = {
+         'id':id,
+--- emesene/emesenelib/Msnobj.py	2008-03-15 15:05:53.000000000 +0200
++++ emesene/emesenelib/Msnobj.py	2009-07-17 10:40:04.000000000 +0300
+@@ -18,7 +18,10 @@
+ 
+ import urllib
+ import base64
+-import sha
++try:
++    from hashlib import sha1 as sha
++except ImportError:
++    from sha import sha
+ import os
+ 
+ class MsnObjectsManager(object):
+@@ -146,7 +149,7 @@
+         return string
+     
+     def makeSha1d( self ):
+-        return base64.b64encode( sha.new( self.data ).digest() )
++        return base64.b64encode( sha( self.data ).digest() )
+     
+     def makeSha1c( self ):
+         string = 'Creator' + self.creator
+@@ -155,7 +158,7 @@
+         string += 'Friendly' + self.friendly
+         string += 'SHA1D' + self.sha1d
+         
+-        return base64.b64encode( sha.new( string ).digest() )
++        return base64.b64encode( sha( string ).digest() )
+     
+     def quote( self ):
+         return urllib.quote( self.__repr__() )
+--- emesene/emesenelib/SignalHandler.py	2008-03-14 21:44:53.000000000 +0200
++++ emesene/emesenelib/SignalHandler.py	2009-07-17 10:31:50.000000000 +0300
+@@ -18,7 +18,10 @@
+ 
+ import struct
+ import urllib
+-import md5
++try:
++    from hashlib import md5
++except ImportError:
++    from md5 import md5
+ 
+ import Msnobj
+ import Switchboard
+@@ -33,7 +36,7 @@
+ MSNP11_MAGIC_NUM = 0x0E79A9C1
+ 
+ def doChallenge(chlData):
+-    md5digest = md5.md5(chlData + _PRODUCT_KEY).digest()
++    md5digest = md5(chlData + _PRODUCT_KEY).digest()
+ 
+     # Make array of md5 string ints
+     md5Ints = struct.unpack("<llll", md5digest)
+--- emesene/plugins_base/lastfm.py	2008-03-01 00:13:32.000000000 +0200
++++ emesene/plugins_base/lastfm.py	2009-07-17 14:11:24.000000000 +0300
+@@ -24,7 +24,10 @@
+ import Plugin
+ import urllib
+ import datetime
+-import md5
++try:
++    from hashlib import md5
++except ImportError:
++    from md5 import md5
+ import re
+ import time 
+ import urllib2
+@@ -106,7 +109,7 @@
+         # First we test the best and most likely case
+         if response[0].startswith('UPTODATE'):
+             ask = response[1].strip()
+-            answer = md5.md5(md5.md5(password).hexdigest() + ask).hexdigest()
++            answer = md5(md5(password).hexdigest() + ask).hexdigest()
+             self.auth_details['u'] = urllib.quote_plus(username.encode('utf8'))
+             self.auth_details['s'] = answer
+             self.posturl = response[2].strip()
+@@ -115,7 +118,7 @@
+         # Next we test the least significant failure.
+         elif response[0].startswith('UPDATE'):
+             ask = response[1].strip()
+-            answer = md5.md5(md5.md5(password).hexdigest() + ask).hexdigest()
++            answer = md5(md5(password).hexdigest() + ask).hexdigest()
+             
+             self.auth_details['u'] = urllib.quote_plus(username.encode('utf8'))
+             self.auth_details['s'] = answer
