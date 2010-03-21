@@ -1,97 +1,108 @@
 # TODO
 # - locales to glibc dirs
+# - make py[co] and install to python dir
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
-Version:	1.0.1
-Release:	1
+Version:	1.6
+Release:	0.8
 License:	GPL v2+
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
-Source0:	http://dl.sourceforge.net/emesene/%{name}-%{version}.tar.gz
-# Source0-md5:	49f77e190b8c991c32a07ac07cf88d13
+Source0:	http://downloads.sourceforge.net/project/emesene/%{name}-%{version}/emesene-%{version}.tar.gz
+# Source0-md5:	ea4d3f4097265daac6823d8288979d02
 Source1:	%{name}.desktop
-Patch0:		python2.6.patch
+BuildRequires:	desktop-file-utils
+BuildRequires:	gettext
+BuildRequires:	python-devel
+Requires:	alsa-utils
 Requires:	gtk+2
 Requires:	python
+Requires:	python
+Requires:	python-dbus
 Requires:	python-gnome-extras
-BuildArch:	noarch
+Requires:	python-pygtk-gtk
+Requires:	python-pynotify
+Suggests:	python-gnome-extras-gtkspell
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-emesene is an instant messaging client for Windows Live Messenger (tm)
-network.
+Emesene is a MSN Messenger client written in Python and GTK. The main
+idea is to make a client similar to the official MSN Messenger client
+but keeping it simple and with a nice GUI.
+
+Emesene is a Python/GTK MSN messenger clone, it uses msnlib (MSNP9)
+and try to be a nice looking and simple MSN client.
+
+You can login, send formatted messages, smilies, use autoreply, change
+status, change nick, send nudges and all the stuff you can do in a
+normal MSN client except, file transfers, custom emoticons and display
+picture.
 
 %prep
 %setup -q
-%patch0 -p1
 
 cat <<'EOF' > emesene.sh
 #!/bin/sh
 exec %{__python} %{_datadir}/%{name}/%{name} "$@"
 EOF
 
-# fix #!/usr/bin/env python -> #!/usr/bin/python:
+# fix #!%{_bindir}/env python -> #!%{__python}:
 %{__sed} -i -e '1s,^#!.*python,#!%{__python},' emesene Controller.py
+
+%build
+%{__python} setup.py build_ext -i
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir}/%{name},%{_datadir}/%{name},%{_desktopdir},%{_pixmapsdir}}
 
-cp -a . $RPM_BUILD_ROOT%{_datadir}/%{name}
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/emesene.sh
-install emesene.sh $RPM_BUILD_ROOT%{_bindir}/emesene
-ln $RPM_BUILD_ROOT{%{_datadir}/%{name}/themes/default/trayicon.png,%{_pixmapsdir}/emesene.png}
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a *.py hotmlog.htm *.png $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -a abstract conversation_themes emesenelib plugins_base po smilies sound_themes themes $RPM_BUILD_ROOT%{_datadir}/%{name}
 
-# handling locale files
-#%find_lang %{name}
+cp -a misc/%{name}.1 $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1
+cp -a misc/%{name}.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
+cp -a misc/%{name}.desktop $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+install -p emesene.sh $RPM_BUILD_ROOT%{_bindir}/emesene
+install -p libmimic.so $RPM_BUILD_ROOT%{_libdir}/%{name}
+
+> %{name}.lang
+for file in po/*; do
+	dir=${file##*/}
+	echo "%lang($dir) %{_datadir}/%{name}/po/$dir" >> %{name}.lang
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc docs
 %attr(755,root,root) %{_bindir}/emesene
+%dir %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/libmimic.so
 %dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/po
-%lang(ar) %{_datadir}/%{name}/po/ar
-%lang(ca) %{_datadir}/%{name}/po/ca
-%lang(de) %{_datadir}/%{name}/po/de
-%lang(es) %{_datadir}/%{name}/po/es
-%lang(et) %{_datadir}/%{name}/po/et
-%lang(fi) %{_datadir}/%{name}/po/fi
-%lang(fr) %{_datadir}/%{name}/po/fr
-%lang(hu) %{_datadir}/%{name}/po/hu
-%lang(it) %{_datadir}/%{name}/po/it
-%lang(nb_NO) %{_datadir}/%{name}/po/nb_NO
-%lang(nl) %{_datadir}/%{name}/po/nl
-%lang(pt) %{_datadir}/%{name}/po/pt
-%lang(pt_BR) %{_datadir}/%{name}/po/pt_BR
-%lang(sv) %{_datadir}/%{name}/po/sv
-%lang(tr) %{_datadir}/%{name}/po/tr
-%lang(zh_CN) %{_datadir}/%{name}/po/zh_CN
-%lang(zh_TW) %{_datadir}/%{name}/po/zh_TW
-%lang(da) %{_datadir}/%{name}/po/da
-%lang(el) %{_datadir}/%{name}/po/el
-%lang(en_GB) %{_datadir}/%{name}/po/en_GB
-%lang(eu) %{_datadir}/%{name}/po/eu
-%lang(ga) %{_datadir}/%{name}/po/ga
-%lang(gl) %{_datadir}/%{name}/po/gl
-%lang(he) %{_datadir}/%{name}/po/he
-%lang(hr) %{_datadir}/%{name}/po/hr
-%lang(is) %{_datadir}/%{name}/po/is
-%lang(ja) %{_datadir}/%{name}/po/ja
-%lang(lv) %{_datadir}/%{name}/po/lv
-%lang(nds) %{_datadir}/%{name}/po/nds
-%lang(nn) %{_datadir}/%{name}/po/nn
-%lang(sl) %{_datadir}/%{name}/po/sl
-%lang(sq) %{_datadir}/%{name}/po/sq
-%lang(sr) %{_datadir}/%{name}/po/sr
-%lang(th) %{_datadir}/%{name}/po/th
-%lang(nb) %{_datadir}/%{name}/po/nb
-%{_datadir}/%{name}/[A-Za-oq-z_]*
+%{_datadir}/%{name}/*.py
+%{_datadir}/%{name}/emesene-logo.png
+%{_datadir}/%{name}/hotmlog.htm
 %{_datadir}/%{name}/plugins_base
-%{_datadir}/%{name}/pygif
+%{_datadir}/%{name}/abstract
+%{_datadir}/%{name}/emesenelib
+%dir %{_datadir}/%{name}/conversation_themes
+%{_datadir}/%{name}/conversation_themes/default
+%{_datadir}/%{name}/conversation_themes/gtalk
+%{_datadir}/%{name}/conversation_themes/irc
+%{_datadir}/%{name}/conversation_themes/messenger
+%{_datadir}/%{name}/conversation_themes/pidgin
+%dir %{_datadir}/%{name}/smilies
+%{_datadir}/%{name}/smilies/default
+%dir %{_datadir}/%{name}/sound_themes
+%{_datadir}/%{name}/sound_themes/default
+%{_datadir}/%{name}/sound_themes/freedesktop
+%dir %{_datadir}/%{name}/themes
+%{_datadir}/%{name}/themes/default
+%{_datadir}/%{name}/themes/gnomecolors
+%{_datadir}/%{name}/themes/inthemargins
+%{_datadir}/%{name}/themes/tango
+%dir %{_datadir}/%{name}/po
+%{_mandir}/man1/emesene.1*
 %{_desktopdir}/emesene.desktop
 %{_pixmapsdir}/emesene.png
