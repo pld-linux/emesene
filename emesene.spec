@@ -1,18 +1,17 @@
-# TODO
-# - locales to glibc dirs
-# - make py[co] and install to python dir
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	1.6
-Release:	0.8
+Release:	0.15
 License:	GPL v2+
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
 Source0:	http://downloads.sourceforge.net/project/emesene/%{name}-%{version}/emesene-%{version}.tar.gz
 # Source0-md5:	ea4d3f4097265daac6823d8288979d02
-Patch0:		%{name}-deskop.patch
+Patch0:		%{name}-desktop.patch
+Patch1:		setup-install.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
+BuildRequires:	rpmbuild(macros) >= 1.219
 Requires:	alsa-utils
 Requires:	gtk+2
 Requires:	python
@@ -40,6 +39,7 @@ picture.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 cat <<'EOF' > emesene.sh
 #!/bin/sh
@@ -49,27 +49,30 @@ EOF
 # fix #!%{_bindir}/env python -> #!%{__python}:
 %{__sed} -i -e '1s,^#!.*python,#!%{__python},' emesene Controller.py
 
+# po/nb already exists, so just rm
+rm -r po/nb_NO
+
 %build
 %{__python} setup.py build_ext -i
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir}/%{name},%{_datadir}/%{name},%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_libdir}/%{name}}
 
-cp -a *.py hotmlog.htm *.png $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp -a abstract conversation_themes emesenelib plugins_base po smilies sound_themes themes $RPM_BUILD_ROOT%{_datadir}/%{name}
+%{__python} setup.py install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
 
-cp -a misc/%{name}.1 $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1
-cp -a misc/%{name}.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
-cp -a misc/%{name}.desktop $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
-install -p emesene.sh $RPM_BUILD_ROOT%{_bindir}/emesene
-install -p libmimic.so $RPM_BUILD_ROOT%{_libdir}/%{name}
+%py_postclean
 
-> %{name}.lang
-for file in po/*; do
-	dir=${file##*/}
-	echo "%lang($dir) %{_datadir}/%{name}/po/$dir" >> %{name}.lang
-done
+mv $RPM_BUILD_ROOT{%{py_sitedir}/libmimic.so,%{_libdir}/%{name}}
+mv $RPM_BUILD_ROOT{%{_bindir}/%{name},%{_datadir}/%{name}}
+rm $RPM_BUILD_ROOT%{py_sitedir}/emesene-*.egg-info
+mv $RPM_BUILD_ROOT{%{py_sitedir}/*,%{_datadir}/%{name}}
+rm $RPM_BUILD_ROOT%{_iconsdir}/hicolor/scalable/apps/emesene.svg
+install -p %{name}.sh $RPM_BUILD_ROOT%{_bindir}/%{name}
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -80,8 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/libmimic.so
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/*.py
-%{_datadir}/%{name}/emesene-logo.png
+%{_datadir}/%{name}/*.py[co]
 %{_datadir}/%{name}/hotmlog.htm
 %{_datadir}/%{name}/plugins_base
 %{_datadir}/%{name}/abstract
@@ -102,7 +104,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/themes/gnomecolors
 %{_datadir}/%{name}/themes/inthemargins
 %{_datadir}/%{name}/themes/tango
-%dir %{_datadir}/%{name}/po
 %{_mandir}/man1/emesene.1*
 %{_desktopdir}/emesene.desktop
 %{_pixmapsdir}/emesene.png

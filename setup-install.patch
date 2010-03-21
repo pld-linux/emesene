@@ -1,0 +1,11 @@
+--- emesene-1.6/setup.py~	2010-01-04 18:26:30.000000000 +0200
++++ emesene-1.6/setup.py	2010-03-21 12:05:27.413402672 +0200
+@@ -6,7 +6,7 @@
+ 
+ if os.name == 'posix':
+     for arg in sys.argv:
+-        if arg == 'install': 
++        if arg == 'install-warn':
+             print 'Hello.\nYou are trying to do a system-wide install of emesene '\
+                   'using this script, which is a very bad thing to do.\n'\
+                   'Seriously, you do NOT want to do this, since it can break '\
