@@ -10,8 +10,7 @@ Group:		Applications/Networking
 URL:		http://www.emesene.org/
 Source0:	http://downloads.sourceforge.net/project/emesene/%{name}-%{version}/emesene-%{version}.tar.gz
 # Source0-md5:	ea4d3f4097265daac6823d8288979d02
-Source1:	%{name}.desktop
-BuildRequires:	desktop-file-utils
+Patch0:		%{name}-deskop.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
 Requires:	alsa-utils
@@ -40,6 +39,7 @@ picture.
 
 %prep
 %setup -q
+%patch0 -p1
 
 cat <<'EOF' > emesene.sh
 #!/bin/sh
