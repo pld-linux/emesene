@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
+%doc COPYING
 %attr(755,root,root) %{_bindir}/emesene
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/libmimic.so
