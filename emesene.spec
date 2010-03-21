@@ -90,6 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/libmimic.so
 %dir %{_datadir}/%{name}
+%attr(755,root,root) %{_datadir}/%{name}/emesene
 %{_datadir}/%{name}/*.py[co]
 %{_datadir}/%{name}/hotmlog.htm
 %{_datadir}/%{name}/plugins_base
