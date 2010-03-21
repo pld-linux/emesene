@@ -1,7 +1,7 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	1.6
-Release:	0.15
+Release:	0.16
 License:	GPL v2+
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
@@ -9,6 +9,7 @@ Source0:	http://downloads.sourceforge.net/project/emesene/%{name}-%{version}/eme
 # Source0-md5:	ea4d3f4097265daac6823d8288979d02
 Patch0:		%{name}-desktop.patch
 Patch1:		setup-install.patch
+Patch2:		plugins-pyc.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -40,6 +41,7 @@ picture.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 cat <<'EOF' > emesene.sh
 #!/bin/sh
