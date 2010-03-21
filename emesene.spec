@@ -1,7 +1,7 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	1.6
-Release:	0.16
+Release:	0.17
 License:	GPL v2+
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
@@ -10,6 +10,7 @@ Source0:	http://downloads.sourceforge.net/project/emesene/%{name}-%{version}/eme
 Patch0:		%{name}-desktop.patch
 Patch1:		setup-install.patch
 Patch2:		plugins-pyc.patch
+Patch3:		pythonpath.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -42,6 +43,7 @@ picture.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 cat <<'EOF' > emesene.sh
 #!/bin/sh
@@ -50,6 +52,8 @@ EOF
 
 # fix #!%{_bindir}/env python -> #!%{__python}:
 %{__sed} -i -e '1s,^#!.*python,#!%{__python},' emesene Controller.py
+# lib64 path
+%{__sed} -i -e 's,/usr/lib/emesene,%{_libdir}/%{name},' emesene
 
 # po/nb already exists, so just rm
 rm -r po/nb_NO

@@ -1,0 +1,12 @@
+--- emesene-1.5/emesene.pythonpath	2009-08-25 10:09:10.052277308 -0300
++++ emesene-1.5/emesene	2009-08-25 10:09:54.330009511 -0300
+@@ -17,6 +17,9 @@
+ #    along with emesene; if not, write to the Free Software
+ #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ 
++import os, sys
++sys.path.append('/usr/lib/emesene')
++
+ try:
+     # Change the process name.
+     import ctypes
