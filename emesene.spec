@@ -13,6 +13,8 @@ Patch2:		plugins-pyc.patch
 Patch3:		pythonpath.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
+BuildRequires:	python-modules
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 Requires:	alsa-utils
 Requires:	gtk+2
