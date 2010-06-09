@@ -1,10 +1,7 @@
-# TODO
-# - default download dir (if not reconfigured by user) is /usr/share/emesene,
-#   which is not writable, set to $HOME/Downloads by default
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	1.6.2
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
@@ -14,6 +11,7 @@ Patch0:		%{name}-desktop.patch
 Patch1:		setup-install.patch
 Patch2:		plugins-pyc.patch
 Patch3:		pythonpath.patch
+Patch4:		receivedFilesDir-writablecheck.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -49,6 +47,7 @@ picture.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 cat <<'EOF' > emesene.sh
 #!/bin/sh

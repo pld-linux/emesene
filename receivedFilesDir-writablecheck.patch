@@ -1,0 +1,13 @@
+--- emesene-1.6.2/FileTransfer.py~	2010-05-26 22:51:32.000000000 +0300
++++ emesene-1.6.2/FileTransfer.py	2010-06-09 19:24:32.826629398 +0300
+@@ -215,8 +215,8 @@
+         receivedFilesDir = os.path.expanduser(config.user['receivedFilesDir'])
+ 
+         # if directory is invalid, save to home directory
+-        if not os.path.exists(receivedFilesDir):
+-            print receivedFilesDir + ' does not exist. ' \
++        if not os.path.exists(receivedFilesDir) or not os.access(receivedFilesDir, os.W_OK):
++            print receivedFilesDir + ' does not exist or is not writable. ' \
+                 'Saving files to home directory.'
+             receivedFilesDir = os.path.expanduser('~/')
+ 
