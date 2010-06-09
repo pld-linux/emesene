@@ -1,3 +1,6 @@
+# TODO
+# - default download dir (if not reconfigured by user) is /usr/share/emesene,
+#   which is not writable, set to $HOME/Downloads by default
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	1.6.2
