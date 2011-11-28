@@ -1,10 +1,9 @@
---- emesene-1.6/misc/emesene.desktop~	2009-09-12 00:49:01.000000000 +0300
-+++ emesene-1.6/misc/emesene.desktop	2010-03-21 10:40:40.795856950 +0200
-@@ -1,7 +1,115 @@
+--- emesene-2.11.11/emesene/data/share/applications/emesene.desktop~	2011-11-12 22:07:06.000000000 +0200
++++ emesene-2.11.11/emesene/data/share/applications/emesene.desktop	2011-11-22 17:58:09.502884977 +0200
+@@ -1,6 +1,61 @@
  [Desktop Entry]
--Name=Emesene
--GenericName=Emesene
--Comment=MSN Messenger client
+-Name=emesene
+-GenericName=emesene
 +Name=Emesene Instant Messenger
 +GenericName=Instant Messenger
 +GenericName[ar]=المرسال الفوري
@@ -62,60 +61,6 @@
 +GenericName[zh_CN]=即时通讯客户程序
 +GenericName[zh_HK]=即時通訊程式
 +GenericName[zh_TW]=即時訊息客戶端程式
-+Comment=Instant Messenger
-+Comment[ar]=المرسال الفوري
-+Comment[be]=Праграма імгненных паведамленняў
-+Comment[bg]=Съобщения в реално време
-+Comment[bn]=তাত্ক্ষণিক বার্তাবাহক
-+Comment[br]=Posteler a-benn-kaer
-+Comment[bs]=Instant poruke
-+Comment[ca]=Missatger a l'instant
-+Comment[cs]=Komunikátor
-+Comment[cy]=Negesydd Chwim
-+Comment[el]=Στιγμιαίος αποστολέας μηνυμάτων
-+Comment[eo]=Rapidmesaĝilo
-+Comment[es]=Mensajería instantánea
-+Comment[et]=Kiirsuhtlusrakendus
-+Comment[eu]=Berehalako mezularitza
-+Comment[fa]=پیام‌رسان فوری
-+Comment[fi]=Pikaviestinohjelma
-+Comment[fr]=Messagerie instantanée
-+Comment[gl]=Mensaxería Instantánea
-+Comment[he]=תוכנת מסרים מידיים
-+Comment[hi]=इंस्टैंट मैसेंजर
-+Comment[hr]=Instant poruke
-+Comment[hu]=Azonnali üzenetküldő
-+Comment[is]=Spjallforrit
-+Comment[it]=Messaggistica istantanea
-+Comment[ja]=インスタントメッセンジャー
-+Comment[kk]=Жедел хабарласу бағдарламасы
-+Comment[km]=កម្មវិធី​ផ្ញើ​សារ​បន្ទាន់
-+Comment[lt]=Momentinių žinučių klientas
-+Comment[mk]=Инстант гласник
-+Comment[nb]=hurtigmeldingssystem
-+Comment[nds]=Kortnarichtenprogramm
-+Comment[ne]=तत्काल मेसेन्जर
-+Comment[nl]=Instant messenger
-+Comment[nn]=Lynmeldingsprogram
-+Comment[pl]=Komunikator
-+Comment[pt]=Mensageiro Instantâneo
-+Comment[pt_BR]=Mensageiro Instantâneo
-+Comment[ro]=Mesaje instantanee
-+Comment[ru]=Программа обмена сообщениями
-+Comment[se]=Instant Messenger-klienta
-+Comment[sl]=Takojšni sporočilnik
-+Comment[sr]=Брзи гласник
-+Comment[sr@Latn]=Brzi glasnik
-+Comment[sv]=Direktmeddelandeklient
-+Comment[ta]=உடனடி தூதர்
-+Comment[tg]=Пайёмбари Фаврӣ
-+Comment[tr]=Anında Haberleşme Hizmeti
-+Comment[uk]=Програма для миттєвого зв'язку
-+Comment[uz]=Xabar almashish vositasi
-+Comment[uz@cyrillic]=Хабар алмашиш воситаси
-+Comment[zh_CN]=即时通讯客户程序
-+Comment[zh_HK]=即時通訊程式
-+Comment[zh_TW]=即時訊息客戶端程式
+ Comment=Instant messaging client for MSN, Gtalk and Facebook
  Exec=emesene
  Icon=emesene
- Terminal=false

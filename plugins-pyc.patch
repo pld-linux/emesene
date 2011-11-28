@@ -1,13 +1,11 @@
---- emesene-1.6/PluginManager.py~	2009-12-24 14:55:03.000000000 +0200
-+++ emesene-1.6/PluginManager.py	2010-03-21 13:11:23.769597184 +0200
-@@ -92,8 +92,8 @@
-         path = path + paths.DIR_SEP + package
+--- emesene-2.11.11/emesene/pluginmanager.py~	2011-11-22 18:00:09.000000000 +0200
++++ emesene-2.11.11/emesene/pluginmanager.py	2011-11-22 18:02:42.495472765 +0200
+@@ -173,7 +173,7 @@
+         for filename in os.listdir(dir_):
+             path = os.path.join(dir_, filename)
+             if filename.startswith(".") or \
+-               not (os.path.isdir(path) or filename.endswith('.py')) or \
++               not (os.path.isdir(path) or filename.endswith('.py') or filename.endswith('.pyc')) or \
+                filename in BLACKLIST:
+                 continue
  
-         modules = [ x.split( '.' )[ 0 ] for x in os.listdir( path ) \
--                    if x.endswith( '.py' ) and not x.startswith( '_' ) \
--                    and x != 'Plugin.py' ]
-+                    if (x.endswith( '.py' ) or x.endswith ('.pyc')) and not x.startswith( '_' ) \
-+                    and x != 'Plugin.py' and x != 'Plugin.pyc' ]
-         plugins = {}
-         plugins = plugins.fromkeys( modules )
-         
