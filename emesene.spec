@@ -15,12 +15,13 @@ BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.553
+Requires:	%{name}-gui = %{version}-%{release}
 Requires:	alsa-utils
 Requires:	python
 Requires:	python
 Requires:	python-dbus
 Requires:	python-gnome-extras
-Requires:	%{name}-gui = %{version}-%{release}
+Requires:	python-modules-sqlite
 Requires:	python-papyon >= 0.5.5
 Requires:	python-pydns
 Requires:	python-pynotify
