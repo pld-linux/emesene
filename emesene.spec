@@ -1,7 +1,7 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	2.12.1
-Release:	0.1
+Release:	0.3
 License:	GPL v3 (emesene), GPL v2 (themes), LGPL (the rest)
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
@@ -91,7 +91,7 @@ EOF
 # fix #!%{_bindir}/env python -> #!%{__python}:
 %{__sed} -i -e '1s,^#!.*python,#!%{__python},' emesene/emesene
 # lib64 path
-%{__sed} -i -e 's,/usr/lib/emesene,%{_libdir}/%{name},' emesene/emesene
+%{__sed} -i -e 's,/usr/lib/emesene,%{_datadir}/%{name},' emesene/emesene
 
 %build
 %{__python} setup.py build
@@ -124,16 +124,21 @@ mv $RPM_BUILD_ROOT{%{py_sitescriptdir}/%{name}/*,%{_datadir}/%{name}}
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/data/icons/hicolor/scalable/apps/%{name}.svg
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/data/share/applications/%{name}.desktop
 
-# TODO: relocate
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/po
+# use system localedir for find-lang
+mv $RPM_BUILD_ROOT%{_datadir}/{%{name}/po,locale}
 
-#%find_lang %{name}
+# unsupported
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/kab
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/lb
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/nan
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/vec
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-#%files -f %{name}.lang
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc CONTRIBUTORS COPYING README.developers README.markdown
 %attr(755,root,root) %{_bindir}/%{name}
