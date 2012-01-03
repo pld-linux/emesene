@@ -1,12 +1,12 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
-Version:	2.11.11
-Release:	0.2
+Version:	2.12.1
+Release:	0.1
 License:	GPL v3 (emesene), GPL v2 (themes), LGPL (the rest)
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
-Source0:	https://github.com/emesene/emesene/tarball/v2.11.11/%{name}-%{version}.tgz
-# Source0-md5:	eb818e886d6c85a293fc640341d1ad44
+Source0:	https://github.com/emesene/emesene/tarball/v%{version}/%{name}-%{version}.tgz
+# Source0-md5:	45dc07dd50e4748d4b2725a8c8d4c227
 Patch0:		%{name}-desktop.patch
 Patch2:		plugins-pyc.patch
 Patch3:		pythonpath.patch
