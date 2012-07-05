@@ -1,0 +1,36 @@
+--- emesene-2.12.5/emesene/emesene.py~	2012-07-05 20:22:24.000000000 +0300
++++ emesene-2.12.5/emesene/emesene.py	2012-07-05 20:26:32.796531143 +0300
+@@ -80,7 +80,6 @@
+ log = logging.getLogger('emesene')
+ 
+ import e3
+-from e3 import dummy
+ 
+ try:
+     from e3.common.DBus import DBusController
+@@ -169,17 +168,12 @@
+ 
+     def _setup(self):
+         '''register core extensions'''
+-        extension.category_register('session', dummy.Session,
+-                single_instance=True)
+         if xmpp is not None:
+             extension.register('session', xmpp.Session)
+-        extension.register('session', dummy.Session)
+ 
+         if papylib is not None:
+             extension.register('session', papylib.Session)
+             extension.set_default('session', papylib.Session)
+-        else:
+-            extension.set_default('session', dummy.Session)
+ 
+         #DBus extension stuffs
+         if DBusController is not None:
+@@ -755,7 +749,6 @@
+     """
+     the main method of emesene
+     """
+-    extension.category_register('session', dummy.Session, single_instance=True)
+     extension.category_register('option provider', None,
+             interfaces=interfaces.IOptionProvider)
+     extension.register('quit', sys.exit)

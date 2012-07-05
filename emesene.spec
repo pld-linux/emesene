@@ -3,7 +3,7 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	2.12.5
-Release:	0.3
+Release:	0.6
 License:	GPL v3 (emesene), GPL v2 (themes), LGPL (the rest)
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
@@ -13,6 +13,7 @@ Patch0:		%{name}-desktop.patch
 Patch2:		plugins-pyc.patch
 Patch3:		pythonpath.patch
 Patch4:		locale-path.patch
+Patch5:		no-dummy.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -81,6 +82,7 @@ mv *-emesene-*/* .
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 # remove shebang
 %{__sed} -i -e '/^#!\//, 1d' emesene/test/e3_example.py emesene/extension.py \
@@ -90,8 +92,8 @@ mv *-emesene-*/* .
 # using system pkg
 #%{__rm} -r emesene/e3/papylib/papyon
 
-# skip debug provider
-%{__sed} -i -e '/import e3dummy/d' emesene/emesene.py
+# skip test provider
+%{__rm} -r emesene/e3/dummy
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
@@ -168,7 +170,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/e3/base
 %{_datadir}/%{name}/e3/cache
 %{_datadir}/%{name}/e3/common
-%{_datadir}/%{name}/e3/dummy
 %{_datadir}/%{name}/e3/synch
 
 %dir %{_datadir}/%{name}/e3/xmpp
