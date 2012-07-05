@@ -1,0 +1,11 @@
+--- emesene-2.12.5/emesene/Language.py~	2012-07-05 19:58:24.000000000 +0300
++++ emesene-2.12.5/emesene/Language.py	2012-07-05 20:00:31.501276097 +0300
+@@ -108,7 +108,7 @@
+ 
+         self._default_locale = locale.getdefaultlocale()[0]
+         self._lang = os.getenv('LANGUAGE') or self._default_locale
+-        self._locales_path = 'po/' if os.path.exists('po/') else None
++        self._locales_path = 'po/' if os.path.exists('po/') else '/usr/share/locale'
+ 
+         self._get_languages_list()
+ 

@@ -3,7 +3,7 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	2.12.5
-Release:	0.1
+Release:	0.2
 License:	GPL v3 (emesene), GPL v2 (themes), LGPL (the rest)
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
@@ -12,6 +12,7 @@ Source0:	https://github.com/emesene/emesene/tarball/v%{version}/%{name}-%{versio
 Patch0:		%{name}-desktop.patch
 Patch2:		plugins-pyc.patch
 Patch3:		pythonpath.patch
+Patch4:		locale-path.patch
 BuildRequires:	gettext
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -79,6 +80,7 @@ mv *-emesene-*/* .
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 # remove shebang
 %{__sed} -i -e '/^#!\//, 1d' emesene/test/e3_example.py emesene/extension.py \
