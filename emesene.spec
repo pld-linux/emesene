@@ -3,7 +3,7 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	2.12.5
-Release:	0.2
+Release:	0.3
 License:	GPL v3 (emesene), GPL v2 (themes), LGPL (the rest)
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
@@ -88,7 +88,7 @@ mv *-emesene-*/* .
 	emesene/e3/common/pluginmanager.py emesene/plugin_base.py
 
 # using system pkg
-%{__rm} -r emesene/e3/papylib/papyon
+#%{__rm} -r emesene/e3/papylib/papyon
 
 # skip debug provider
 %{__sed} -i -e '/import e3dummy/d' emesene/emesene.py
@@ -154,7 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc CONTRIBUTORS COPYING README.developers README.markdown
+%doc CONTRIBUTORS COPYING DEPENDS README.developers README.markdown
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/data
