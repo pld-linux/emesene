@@ -3,7 +3,7 @@
 Summary:	Instant messaging client for Windows Live Messenger (tm) network
 Name:		emesene
 Version:	2.12.5
-Release:	0.6
+Release:	1
 License:	GPL v3 (emesene), GPL v2 (themes), LGPL (the rest)
 Group:		Applications/Networking
 URL:		http://www.emesene.org/
