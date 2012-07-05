@@ -1,5 +1,5 @@
---- emesene-2.11.11/emesene/pluginmanager.py~	2011-11-22 18:00:09.000000000 +0200
-+++ emesene-2.11.11/emesene/pluginmanager.py	2011-11-22 18:02:42.495472765 +0200
+--- emesene-2.12.5/emesene/e3/common/pluginmanager.py~	2012-06-18 22:22:03.000000000 +0300
++++ emesene-2.12.5/emesene/e3/common/pluginmanager.py	2012-06-18 22:22:46.818149193 +0300
 @@ -173,7 +173,7 @@
          for filename in os.listdir(dir_):
              path = os.path.join(dir_, filename)
