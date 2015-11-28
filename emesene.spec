@@ -109,16 +109,13 @@ EOF
 %{__sed} -i -e 's,/usr/lib/emesene,%{_datadir}/%{name},' emesene/emesene
 
 %build
-%{__python} setup.py build
+%py_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_bindir}}
 
-%{__python} setup.py install \
-	--skip-build \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
 
 %py_postclean
 
