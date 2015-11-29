@@ -18,7 +18,7 @@ BuildRequires:	gettext
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.553
+BuildRequires:	rpmbuild(macros) >= 1.710
 Requires:	%{name}-gui = %{version}-%{release}
 Requires:	alsa-utils
 Requires:	python
